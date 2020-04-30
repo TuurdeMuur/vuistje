@@ -11,7 +11,7 @@ const IndexPage = ({ data }) => (
     <ul>
       {data.allContentfulVuist.edges.map(({ node }) => (
         <li key={node.id}>
-          <Link to={node.id}>{node.id}</Link>
+          <Link to={`vuistje/${node.id}`}>{node.id}</Link>
         </li>
       ))}
     </ul>

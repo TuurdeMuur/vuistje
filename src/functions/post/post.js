@@ -11,26 +11,27 @@ const client = contentful.createClient({
   accessToken : process.env.CONTENTFUL_MANAGEMENT_TOKEN,
 })
 
-exports.handler = async function(event, context, calback) {
+exports.handler = async function(event, context, callback) {
   try {
     const vuistje = querystring.parse(event.body)
     vuistje.id = shortid.generate()
 
     const space = await client.getSpace(process.env.CONTENTFUL_SPACE_ID)
-    const environment = await space.getEnvironment('master') 
+    const environment = await space.getEnvironment("master")
     const entry = await environment.createEntryWithId("vuist", vuistje.id, {
-      to: {
-        "en-US": vuistje.to,
+      fields: {
+        to: {
+          "en-US": vuistje.to,
+        },
+        from: {
+          "en-US": vuistje.from,
+        },
+        message: {
+          "en-US": vuistje.message,
+        },
       },
-      from: {
-        "en-US": vuistje.from,
-      },
-      message: {
-        "en-US": vuistje.message,
-      }
     })
-
-    await entry.publish();
+    await entry.publish()
 
     return callback(null, {
       body: JSON.stringify(entry.fields),
