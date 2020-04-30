@@ -8,10 +8,9 @@ import style from "./index.module.css"
 const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
-
     <ul>
       {data.allContentfulVuist.edges.map(({ node }) => (
-        <li>
+        <li key={node.id}>
           <Link to={node.id}>{node.id}</Link>
         </li>
       ))}
